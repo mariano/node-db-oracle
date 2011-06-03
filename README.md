@@ -11,33 +11,39 @@ In order for the installation script to locate them properly, you'll
 need to set the OCI_INCLUDE_DIR and OCI_LIB_DIR environment variables. 
 For example:
 
-    $ export OCI_INCLUDE_DIR=/opt/instantclient/sdk/include/
-    $ export OCI_LIB_DIR=/opt/instantclient
+```bash
+$ export OCI_INCLUDE_DIR=/opt/instantclient/sdk/include/
+$ export OCI_LIB_DIR=/opt/instantclient
+```
 
 Once the environment variables are set, install with npm:
 
-    $ npm install db-oracle
+```bash
+$ npm install db-oracle
+```
 
 ## QUICK START ##
 
-    var oracle = require('db-oracle');
-    new oracle.Database({
-        hostname: 'localhost',
-        user: 'root',
-        password: 'password',
-        database: 'node'
-    }).connect(function(error) {
-        if (error) {
-            return console.log("CONNECTION ERROR: " + error);
-        }
+```javascript
+var oracle = require('db-oracle');
+new oracle.Database({
+    hostname: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'node'
+}).connect(function(error) {
+    if (error) {
+        return console.log("CONNECTION ERROR: " + error);
+    }
 
-        this.query().select('*').from('users').execute(function(error, rows) {
-            if (error) {
-                return console.log('ERROR: ' + error);
-            }
-            console.log(rows.length + ' ROWS');
-        });
+    this.query().select('*').from('users').execute(function(error, rows) {
+        if (error) {
+            return console.log('ERROR: ' + error);
+        }
+        console.log(rows.length + ' ROWS');
     });
+});
+```
 
 ## LICENSE ##
 
