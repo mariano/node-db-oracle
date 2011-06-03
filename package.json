@@ -1,0 +1,30 @@
+{ "name" : "db-oracle"
+, "description" : "Oracle database bindings for Node.JS"
+, "keywords": ["database","db","native","binding","library","plugin","client","oracle","oci","occi"]
+, "homepage" : "http://nodejsdb.org/db-oracle"
+, "version" : "0.1.0"
+, "engines" : { "node" : ">=0.4.1" }
+, "maintainers" :
+  [ { "name": "Mariano Iglesias"
+    , "email": "mgiglesias@gmail.com"
+    }
+  ]
+, "bugs" : { "web" : "http://github.com/mariano/node-db-oracle/issues" }
+, "licenses" : [ { "type" : "MIT" } ]
+, "repositories" :
+  [ { "type" : "git"
+    , "url" : "http://github.com/mariano/node-db-oracle.git"
+    }
+  ]
+, "main" : "./db-oracle"
+, "scripts" :
+  { "install": "node-waf configure build"
+  , "preuninstall": "rm -rf build/*"
+  , "test" : "node-waf test"
+  , "doc" : "node-waf doc"
+  }
+, "devDependencies" :
+  { "nodeunit" : "*"
+  , "nodelint" : "*"
+  }
+}
