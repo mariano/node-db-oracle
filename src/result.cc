@@ -214,7 +214,14 @@ char** node_db_oracle::Result::row(unsigned long* rowColumnLengths) throw(node_d
 
                 blob.read(rowColumnLengths[c], (unsigned char*) row[c], rowColumnLengths[c]);
             } else {
-                std::string string = this->resultSet->getString(c + 1);
+                std::string string;
+                if (this->columns[c]->getType() == Column::DATETIME) {
+                    oracle::occi::Date date = this->resultSet->getDate(c + 1);
+                    string = date.toText("YYYY-MM-DD HH:II:SS");
+                } else {
+                    string = this->resultSet->getString(c + 1);
+                }
+
                 rowColumnLengths[c] = string.length();
 
                 row[c] = new char[rowColumnLengths[c]];
