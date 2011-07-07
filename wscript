@@ -11,7 +11,7 @@ from os.path import exists
 
 srcdir = "."
 blddir = "build"
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 
 def set_options(opt):
   opt.tool_options("compiler_cxx")
@@ -38,7 +38,7 @@ def configure(conf):
   if oci_lib:
       conf.env.append_unique('LINKFLAGS', [ '-L' + oci_lib ])
 
-  conf.env.append_unique('LINKFLAGS', ['-locci', '-lclntsh'])
+  conf.env.append_unique('LINKFLAGS', ['-locci', '-lclntsh', '-lnnz11'])
   conf.check(header_name="occi.h", errmsg="Missing include files for OCI", mandatory=True)
   conf.check_cxx(lib="occi", errmsg="Missing libocci", mandatory=True)
 
