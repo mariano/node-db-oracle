@@ -217,12 +217,18 @@ char** node_db_oracle::Result::row(unsigned long* rowColumnLengths) throw(node_d
                 std::string string;
                 if (this->columns[c]->getType() == Column::DATETIME) {
                     oracle::occi::Date date = this->resultSet->getDate(c + 1);
-                    string = date.toText("YYYY-MM-DD HH:II:SS");
+                    if (!date.isNull())
+                        string = date.toText("YYYY-MM-DD HH:II:SS");
+                    }
                 } else {
                     string = this->resultSet->getString(c + 1);
                 }
 
                 rowColumnLengths[c] = string.length();
+                if (rowColumnLengths[c] == 0) {
+                    row[c] = NULL;
+                    continue;
+                }
 
                 row[c] = new char[rowColumnLengths[c]];
                 if (row[c] == NULL) {
