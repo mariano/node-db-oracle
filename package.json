@@ -13,7 +13,7 @@
 , "licenses" : [ { "type" : "MIT" } ]
 , "repositories" :
   [ { "type" : "git"
-    , "url" : "http://github.com/mariano/node-db-oracle.git"
+    , "url" : "https://github.com/mariano/node-db-oracle.git"
     }
   ]
 , "main" : "./db-oracle"
