@@ -3,3 +3,4 @@
 *.sh
 *.swp
 .lock*
+.svn
