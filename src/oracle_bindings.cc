@@ -5,6 +5,7 @@
 
 extern "C" {
     void init(v8::Handle<v8::Object> target) {
+        node_db::EventEmitter::Init();
         node_db_oracle::Oracle::Init(target);
         node_db_oracle::Query::Init(target);
     }

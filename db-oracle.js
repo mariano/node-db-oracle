@@ -9,6 +9,21 @@
  *
  * @ignore
  */
-var binding = require("./build/default/oracle_bindings");
-exports.Database = binding.Oracle;
-exports.Query = binding.Query;
+var EventEmitter = require('events').EventEmitter,
+    binding;
+
+try {
+    binding = require("./build/default/oracle_bindings");
+} catch(error) {
+    binding = require("./build/Release/oracle_bindings");
+}
+
+function extend(target, source) {
+    for (var k in source.prototype) {
+        target.prototype[k] = source.prototype[k];
+    }
+    return target;
+}
+
+exports.Query = extend(binding.Query, EventEmitter);
+exports.Database = extend(binding.Oracle, EventEmitter);
