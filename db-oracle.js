@@ -9,6 +9,6 @@
  *
  * @ignore
  */
-var binding = require("./build/Release/oracle_bindings");
+var binding = require("./build/default/oracle_bindings");
 exports.Database = binding.Oracle;
 exports.Query = binding.Query;

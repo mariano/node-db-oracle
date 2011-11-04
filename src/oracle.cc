@@ -20,7 +20,7 @@ void node_db_oracle::Oracle::Init(v8::Handle<v8::Object> target) {
     v8::Local<v8::FunctionTemplate> t = v8::FunctionTemplate::New(New);
 
     constructorTemplate = v8::Persistent<v8::FunctionTemplate>::New(t);
-    //constructorTemplate->Inherit(node::EventEmitter::constructor_template);
+    constructorTemplate->Inherit(node::EventEmitter::constructor_template);
     constructorTemplate->InstanceTemplate()->SetInternalFieldCount(1);
 
     node_db::Binding::Init(target, constructorTemplate);
