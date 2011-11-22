@@ -270,6 +270,16 @@ uint64_t node_db_oracle::Result::affectedCount() const throw() {
     return this->statement->getUpdateCount();
 }
 
+uint64_t node_db_oracle::Result::insertId() const throw(node_db::Exception&) {
+    //TODO:
+    return 0;
+}
+
+uint16_t node_db_oracle::Result::warningCount() const throw(node_db::Exception&) {
+    //TODO:
+    return 0;
+}
+
 uint16_t node_db_oracle::Result::columnCount() const throw() {
     return this->totalColumns;
 }

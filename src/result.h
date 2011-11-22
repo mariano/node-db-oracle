@@ -36,6 +36,8 @@ class Result : public node_db::Result {
         Column* column(uint16_t i) const throw(std::out_of_range&);
         uint16_t columnCount() const throw();
         uint64_t affectedCount() const throw();
+        uint64_t insertId() const throw(node_db::Exception&);
+        uint16_t warningCount() const throw(node_db::Exception&);
         bool isBuffered() const throw();
         bool isEmpty() const throw();
 
