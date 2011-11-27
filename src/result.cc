@@ -223,7 +223,7 @@ char** node_db_oracle::Result::row(unsigned long* rowColumnLengths) throw(node_d
                         continue;
                     }
 
-                    string = date.toText("YYYY-MM-DD HH:II:SS");
+                    string = date.toText("YYYY-MM-DD HH24:MI:SS");
                 } else {
                     string = this->resultSet->getString(c + 1);
                 }
