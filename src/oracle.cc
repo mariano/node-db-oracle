@@ -53,6 +53,8 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, hostname);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, user);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, password);
+    ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, tnsname);
+    ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, sid);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, database);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_UINT32(options, port);
 
@@ -62,6 +64,10 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
     v8::String::Utf8Value user(options->Get(user_key)->ToString());
     v8::String::Utf8Value password(options->Get(password_key)->ToString());
     v8::String::Utf8Value database(options->Get(database_key)->ToString());
+    
+    v8::String::Utf8Value sid(options->Get(sid_key)->ToString());
+    v8::String::Utf8Value tnsname(options->Get(tnsname_key)->ToString());
+
 
     if (options->Has(hostname_key)) {
         connection->setHostname(*hostname);
@@ -73,6 +79,14 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
 
     if (options->Has(password_key)) {
         connection->setPassword(*password);
+    }
+
+    if (options->Has(tnsname_key)) {
+        connection->setTNSName(*tnsname);
+    }
+    
+    if (options->Has(sid_key)) {
+        connection->setSid(*sid);
     }
 
     if (options->Has(database_key)) {
