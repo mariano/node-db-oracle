@@ -6,7 +6,7 @@ node_db_oracle::Connection::Connection()
       connection(NULL) {
     this->port = 1521;
     this->quoteName = '"';
-    this->environment = oracle::occi::Environment::createEnvironment(oracle::occi::Environment::THREADED_MUTEXED);
+    this->environment = oracle::occi::Environment::createEnvironment("AL32UTF8","AL32UTF8", oracle::occi::Environment::THREADED_MUTEXED);
     if (this->environment == NULL) {
         throw node_db::Exception("Cannot create environment");
     }
