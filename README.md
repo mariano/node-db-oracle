@@ -43,7 +43,7 @@ new oracle.Database({
         console.log(rows.length + ' ROWS');
     });
 });
-```
+``
 
 ## LICENSE ##
 

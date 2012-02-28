@@ -1,10 +1,11 @@
 // Copyright 2011 Mariano Iglesias <mgiglesias@gmail.com>
 #include "./connection.h"
-
 node_db_oracle::Connection::Connection()
     : environment(NULL),
       connection(NULL) {
-    this->port = 1521;
+    this->port = 1521; 
+    this->tnsname = "";
+    this->sid = "";
     this->quoteName = '"';
     this->environment = oracle::occi::Environment::createEnvironment("AL32UTF8","AL32UTF8", oracle::occi::Environment::THREADED_MUTEXED);
     if (this->environment == NULL) {
@@ -27,7 +28,15 @@ void node_db_oracle::Connection::open() throw(node_db::Exception&) {
     this->close();
 
     std::ostringstream connection;
-    connection << "//" << this->hostname << ":" << this->port << "/" << this->database;
+    if( this->tnsname != ""){
+      TNSParser parser ( this->tnsname );
+      connection << parser.getConnectionString();
+    } else if( this->sid != "" ) {
+      connection << "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = " << this->hostname << ")(PORT = "<< this->port << ")))(CONNECT_DATA = (SID = " << this->sid << ")))"; 
+    } else {
+      connection << "//" << this->hostname << ":" << this->port << "/" << this->database;
+    }
+
     try {
         this->connection = this->environment->createConnection(this->user, this->password, connection.str());
         this->alive = true;
@@ -54,3 +63,22 @@ std::string node_db_oracle::Connection::version() const {
 node_db::Result* node_db_oracle::Connection::query(const std::string& query) const throw(node_db::Exception&) {
     return new node_db_oracle::Result(this->connection->createStatement(query));
 }
+
+
+std::string node_db_oracle::Connection::getSid() const {
+    return this->sid;
+}
+
+void node_db_oracle::Connection::setSid(const std::string& sid) {
+    this->sid = sid;
+}
+
+std::string node_db_oracle::Connection::getTNSName() const {
+    return this->tnsname;
+}
+
+void node_db_oracle::Connection::setTNSName(const std::string& tnsname) {
+    this->tnsname = tnsname;
+}
+
+
