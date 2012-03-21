@@ -60,6 +60,12 @@ Once the environment variables are set, install with npm:
 $ npm install db-oracle
 ```
 
+You should also add the OCI library path to your `LD_LIBRARY_PATH` environment:
+
+```bash
+export LD_LIBRARY_PATH=/opt/instantclient
+```
+
 ## QUICK START ##
 
 ```javascript
