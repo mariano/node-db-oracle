@@ -13,12 +13,18 @@ class Connection : public node_db::Connection {
     public:
         Connection();
         ~Connection();
+        void setCharset(const std::string& charset) throw();
+        void setNCharset(const std::string& charset) throw();
         bool isAlive(bool ping) throw();
         void open() throw(node_db::Exception&);
         void close();
         std::string escape(const std::string& string) const throw(node_db::Exception&);
         std::string version() const;
         node_db::Result* query(const std::string& query) const throw(node_db::Exception&);
+
+    protected:
+        std::string charset;
+        std::string ncharset;
 
     private:
         oracle::occi::Environment* environment;

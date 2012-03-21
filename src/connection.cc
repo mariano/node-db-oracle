@@ -6,15 +6,21 @@ node_db_oracle::Connection::Connection()
       connection(NULL) {
     this->port = 1521;
     this->quoteName = '"';
-    this->environment = oracle::occi::Environment::createEnvironment("AL32UTF8","AL32UTF8", oracle::occi::Environment::THREADED_MUTEXED);
-    if (this->environment == NULL) {
-        throw node_db::Exception("Cannot create environment");
-    }
 }
 
 node_db_oracle::Connection::~Connection() {
     this->close();
-    oracle::occi::Environment::terminateEnvironment(this->environment);
+    if (this->environment) {
+        oracle::occi::Environment::terminateEnvironment(this->environment);
+    }
+}
+
+void node_db_oracle::Connection::setCharset(const std::string& charset) throw() {
+    this->charset = charset;
+}
+
+void node_db_oracle::Connection::setNCharset(const std::string& ncharset) throw() {
+    this->ncharset = ncharset;
 }
 
 bool node_db_oracle::Connection::isAlive(bool ping) throw() {
@@ -25,6 +31,17 @@ bool node_db_oracle::Connection::isAlive(bool ping) throw() {
 
 void node_db_oracle::Connection::open() throw(node_db::Exception&) {
     this->close();
+
+    if (!this->environment) {
+        if (!this->charset.empty() && !this->ncharset.empty()) {
+            this->environment = oracle::occi::Environment::createEnvironment(this->charset.c_str(), this->ncharset.c_str(), oracle::occi::Environment::THREADED_MUTEXED);
+        } else {
+            this->environment = oracle::occi::Environment::createEnvironment(oracle::occi::Environment::THREADED_MUTEXED);
+        }
+        if (this->environment == NULL) {
+            throw node_db::Exception("Cannot create environment");
+        }
+    }
 
     std::ostringstream connection;
     connection << "//" << this->hostname << ":" << this->port << "/" << this->database;
@@ -37,7 +54,7 @@ void node_db_oracle::Connection::open() throw(node_db::Exception&) {
 }
 
 void node_db_oracle::Connection::close() {
-    if (this->alive) {
+    if (this->alive && this->environment) {
         this->environment->terminateConnection(this->connection);
     }
     this->alive = false;

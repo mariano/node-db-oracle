@@ -55,6 +55,8 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, password);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, database);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_UINT32(options, port);
+    ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, charset);
+    ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, ncharset);
 
     node_db_oracle::Connection* connection = static_cast<node_db_oracle::Connection*>(this->connection);
 
@@ -81,6 +83,16 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
 
     if (options->Has(port_key)) {
         connection->setPort(options->Get(port_key)->ToInt32()->Value());
+    }
+
+    if (options->Has(charset_key)) {
+        v8::String::Utf8Value charset(options->Get(charset_key)->ToString());
+        connection->setCharset(*charset);
+    }
+
+    if (options->Has(ncharset_key)) {
+        v8::String::Utf8Value ncharset(options->Get(ncharset_key)->ToString());
+        connection->setNCharset(*ncharset);
     }
 
     return v8::Handle<v8::Value>();
