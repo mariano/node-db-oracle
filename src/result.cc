@@ -204,15 +204,20 @@ char** node_db_oracle::Result::row(unsigned long* rowColumnLengths) throw(node_d
 
         for (c=0; c < this->totalColumns; c++) {
             if (this->columns[c]->isBinary()) {
-                oracle::occi::Blob blob = this->resultSet->getBlob(c + 1);
-                rowColumnLengths[c] = blob.length();
+                if(!this->resultSet->isNull(c + 1)){
+                    oracle::occi::Blob blob = this->resultSet->getBlob(c + 1);
+                    rowColumnLengths[c] = blob.length();
 
-                row[c] = new char[rowColumnLengths[c]];
-                if (row[c] == NULL) {
-                    throw node_db::Exception("Could not allocate buffer for row column");
+                    row[c] = new char[rowColumnLengths[c]];
+                    if (row[c] == NULL) {
+                        throw node_db::Exception("Could not allocate buffer for row column");
+                    }
+
+                    blob.read(rowColumnLengths[c], (unsigned char*) row[c], rowColumnLengths[c]);
+                }else{
+                    rowColumnLengths[c] = 0;
+                    row[c] = new char[0];
                 }
-
-                blob.read(rowColumnLengths[c], (unsigned char*) row[c], rowColumnLengths[c]);
             } else {
                 std::string string;
                 if (this->columns[c]->getType() == Column::DATETIME) {
