@@ -12,12 +12,13 @@ Before proceeding with installation, you need to have the
 For example, you download the `instantclient-basic-linux.x64-11.2.0.3.0.zip` 
 library file, and the `instantclient-sdk-linux.x64-11.2.0.3.0.zip` SDK file, 
 and save them in your `$HOME/Downloads` directory. You would then uncompress 
-both files, and move the generated directory to your `/opt` path:
+both files, chown, and move the generated directory to your `/opt` path:
 
 ```bash
 $ cd $HOME/Downloads
 $ unzip instantclient-basic-linux.x64-11.2.0.3.0.zip
 $ unzip instantclient-sdk-linux.x64-11.2.0.3.0.zip 
+$ sudo chown -R root:root instantclient_11_2/
 $ sudo mv instantclient_11_2/ /opt/instantclient
 ```
 
