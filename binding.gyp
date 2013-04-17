@@ -1,8 +1,15 @@
 {
 	'targets': [
 		{
-			'target_name': 'node-db-oracle',
+			'target_name': 'oracle_bindings',
 			'sources': [
+				'src/node-db/binding.cc',
+				'src/node-db/connection.cc',
+				'src/node-db/cursor.cc',
+				'src/node-db/events.cc',
+				'src/node-db/exception.cc',
+				'src/node-db/query.cc',
+				'src/node-db/result.cc',
 				'src/connection.cc',
 				'src/oracle.cc',
 				'src/oracle_bindings.cc',

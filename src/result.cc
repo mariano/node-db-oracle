@@ -73,6 +73,11 @@ node_db_oracle::Result::Result(oracle::occi::Statement* statement) throw(node_db
             }
         } catch(oracle::occi::SQLException& ex) {
             throw node_db::Exception(ex.getMessage());
+        } catch (std::exception ex) {
+            char buf[4096];
+            snprintf(buf, sizeof buf, "%s while executing %s", ex.what(), this->statement->getSQL().c_str());
+            printf("%s\n", buf);
+            throw node_db::Exception(buf);
         }
 
         if (this->resultSet != NULL) {
