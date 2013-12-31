@@ -23,6 +23,7 @@ class Connection : public node_db::Connection {
         node_db::Result* query(const std::string& query) const throw(node_db::Exception&);
 
     protected:
+        std::string tns;
         std::string charset;
         std::string ncharset;
 
