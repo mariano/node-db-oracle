@@ -13,6 +13,7 @@ class Connection : public node_db::Connection {
     public:
         Connection();
         ~Connection();
+        void setTns(const std::string& iTns) throw();
         void setCharset(const std::string& charset) throw();
         void setNCharset(const std::string& charset) throw();
         bool isAlive(bool ping) throw();
