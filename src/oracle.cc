@@ -50,6 +50,7 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::New(const v8::Arguments& args) {
 }
 
 v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> options) {
+    ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, tns);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, hostname);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, user);
     ARG_CHECK_OBJECT_ATTR_OPTIONAL_STRING(options, password);
@@ -60,10 +61,15 @@ v8::Handle<v8::Value> node_db_oracle::Oracle::set(const v8::Local<v8::Object> op
 
     node_db_oracle::Connection* connection = static_cast<node_db_oracle::Connection*>(this->connection);
 
+    v8::String::Utf8Value tns(options->Get(tns_key)->ToString());
     v8::String::Utf8Value hostname(options->Get(hostname_key)->ToString());
     v8::String::Utf8Value user(options->Get(user_key)->ToString());
     v8::String::Utf8Value password(options->Get(password_key)->ToString());
     v8::String::Utf8Value database(options->Get(database_key)->ToString());
+
+    if (options->Has(tns_key)) {
+        connection->setTns(*tns);
+    }
 
     if (options->Has(hostname_key)) {
         connection->setHostname(*hostname);

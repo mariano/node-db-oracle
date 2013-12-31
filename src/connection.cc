@@ -15,6 +15,10 @@ node_db_oracle::Connection::~Connection() {
     }
 }
 
+void node_db_oracle::Connection::setTns(const std::string& iTns) throw() {
+    this->tns = iTns;
+}
+
 void node_db_oracle::Connection::setCharset(const std::string& charset) throw() {
     this->charset = charset;
 }
@@ -44,7 +48,14 @@ void node_db_oracle::Connection::open() throw(node_db::Exception&) {
     }
 
     std::ostringstream connection;
-    connection << "//" << this->hostname << ":" << this->port << "/" << this->database;
+    if(this->tns != "")
+    {
+        connection << this->tns;
+    }
+    else
+    {
+        connection << "//" << this->hostname << ":" << this->port << "/" << this->database;
+    }
     try {
         this->connection = this->environment->createConnection(this->user, this->password, connection.str());
         this->alive = true;
